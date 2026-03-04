@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestion Stock</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Fonts + Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Spline 3D Viewer -->
+  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.58/build/spline-viewer.js"></script>
+
+  <!-- PDF libs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+
+  <!-- ===================== LOGIN PAGE (NEON) ===================== -->
+  <section id="loginPage" class="login-scope">
+    <!-- Spline 3D background -->
+    <div class="spline-bg">
+      <spline-viewer url="https://prod.spline.design/yUaPeiRu4wu6m2HA/scene.splinecode"></spline-viewer>
+    </div>
+    <div class="auth-wrapper" id="authWrapper">
+      <div class="background-shape"></div>
+      <div class="secondary-shape"></div>
+
+      <!-- SIGN IN -->
+      <div class="credentials-panel signin">
+        <h2 class="slide-element">Login</h2>
+
+        <form id="loginForm" action="#">
+          <div class="field-wrapper slide-element">
+            <input id="loginUser" type="text" required autocomplete="username">
+            <label>Username</label>
+            <i class="fa-solid fa-user"></i>
+          </div>
+
+          <div class="field-wrapper slide-element">
+            <input id="loginPass" type="password" required autocomplete="current-password">
+            <label>Password</label>
+            <i class="fa-solid fa-lock"></i>
+          </div>
+
+          <div class="field-wrapper slide-element">
+            <button class="submit-button" id="btnLogin" type="submit">Login</button>
+          </div>
+
+          <div class="switch-link slide-element">
+            <p>Don't have an account? <br> <a href="#" class="register-trigger">Sign Up</a></p>
+          </div>
+        </form>
+      </div>
+
+      <div class="welcome-section signin">
+        <h2 class="slide-element">WELCOME BACK!</h2>
+      </div>
+
+      <!-- SIGN UP -->
+      <div class="credentials-panel signup">
+        <h2 class="slide-element">Register</h2>
+
+        <form id="signupForm" action="#">
+          <div class="field-wrapper slide-element">
+            <input id="signupUser" type="text" required autocomplete="username">
+            <label>Username</label>
+            <i class="fa-solid fa-user"></i>
+          </div>
+
+          <div class="field-wrapper slide-element">
+            <input id="signupEmail" type="email" autocomplete="email">
+            <label>Email</label>
+            <i class="fa-solid fa-envelope"></i>
+          </div>
+
+          <div class="field-wrapper slide-element">
+            <input id="signupPass" type="password" required autocomplete="new-password">
+            <label>Password</label>
+            <i class="fa-solid fa-lock"></i>
+          </div>
+
+          <div class="field-wrapper slide-element">
+            <button class="submit-button" type="submit">Register</button>
+          </div>
+
+          <div class="switch-link slide-element">
+            <p>Already have an account? <br> <a href="#" class="login-trigger">Sign In</a></p>
+          </div>
+
+          <p class="hint slide-element" id="signupMsg"></p>
+        </form>
+      </div>
+
+      <div class="welcome-section signup">
+        <h2 class="slide-element">WELCOME!</h2>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>Made BY CHENNOUFI IMANE</p>
+    </div>
+  </section>
+
+  <!-- ===================== APP ===================== -->
+  <section id="appPage" class="app hidden">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-title">Gestion Stock</div>
+        <div class="brand-sub">Système de Management</div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-item active" data-page="dashboard"><i class="fa-solid fa-table-columns"></i>
+          Dashboard</button>
+        <button class="nav-item" data-page="clients"><i class="fa-solid fa-users"></i> Clients</button>
+        <button class="nav-item" data-page="suppliers"><i class="fa-solid fa-truck"></i> Fournisseurs</button>
+        <button class="nav-item" data-page="products"><i class="fa-solid fa-box"></i> Produits</button>
+        <button class="nav-item" data-page="categories"><i class="fa-solid fa-layer-group"></i> Catégories</button>
+        <button class="nav-item" data-page="cashier"><i class="fa-solid fa-cash-register"></i> Caisse</button>
+        <button class="nav-item" data-page="diagramme"><i class="fa-solid fa-chart-pie"></i> Diagramme</button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <div class="mini">
+          <div class="dot"></div>
+          <div>
+            <div class="mini-title">Session</div>
+            <div class="mini-sub" id="sessionUser">IMANE</div>
+          </div>
+        </div>
+        <button class="btn-ghost" id="btnLogout"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <!-- Top bar -->
+      <header class="topbar">
+        <div class="topbar-card">
+          <h2 id="pageTitle">Dashboard</h2>
+
+          <div class="topbar-right">
+            <div class="user-badge">
+              <i class="fa-regular fa-user"></i>
+              <span id="topUser">IMANE</span>
+            </div>
+            <button class="btn-danger" id="btnLogoutTop">
+              <i class="fa-solid fa-right-from-bracket"></i>
+              Déconnexion
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Pages -->
+      <section class="page" id="page-dashboard">
+        <div class="grid-4">
+          <div class="stat">
+            <div class="stat-ico"><i class="fa-solid fa-boxes-stacked"></i></div>
+            <div>
+              <div class="stat-num" id="statProducts">0</div>
+              <div class="stat-label">Total Produits</div>
+            </div>
+          </div>
+          <div class="stat">
+            <div class="stat-ico"><i class="fa-solid fa-cart-shopping"></i></div>
+            <div>
+              <div class="stat-num" id="statOrders">0</div>
+              <div class="stat-label">Commandes</div>
+            </div>
+          </div>
+          <div class="stat">
+            <div class="stat-ico"><i class="fa-solid fa-cubes"></i></div>
+            <div>
+              <div class="stat-num" id="statStock">0</div>
+              <div class="stat-label">Stock Total</div>
+            </div>
+          </div>
+          <div class="stat">
+            <div class="stat-ico"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <div>
+              <div class="stat-num" id="statOut">0</div>
+              <div class="stat-label">Rupture Stock</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel mt-16">
+          <div class="panel-head">
+            <h3>Aperçu</h3>
+          </div>
+          <p class="muted">
+          </p>
+        </div>
+      </section>
+
+      <section class="page hidden" id="page-clients">
+        <div class="panel">
+          <div class="panel-head between">
+            <div>
+              <h3>Nos Clients</h3>
+              <p class="muted">Gérez vos clients facilement.</p>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;">
+              <span class="pill" id="totalClientsBadge">0 clients</span>
+              <button class="btn-primary" id="btnAddClient"><i class="fa-solid fa-plus"></i> Ajouter</button>
+            </div>
+          </div>
+          <div class="table-responsive mt-12">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Client</th>
+                  <th>Contact</th>
+                  <th>Ville</th>
+                  <th>Statut</th>
+                  <th class="r">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="clientsTableBody">
+                <!-- JS will populate -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="page hidden" id="page-suppliers">
+        <div class="panel">
+          <div class="panel-head between">
+            <div>
+              <h3>Nos Fournisseurs</h3>
+              <p class="muted">Gérez vos fournisseurs facilement.</p>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;">
+              <span class="pill" id="totalSuppliersBadge">0 fournisseurs</span>
+              <button class="btn-primary" id="btnAddSupplier"><i class="fa-solid fa-plus"></i> Ajouter</button>
+            </div>
+          </div>
+          <div class="table-responsive mt-12">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Fournisseur</th>
+                  <th>Catégorie</th>
+                  <th>Contact</th>
+                  <th>Tél</th>
+                  <th class="r">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="suppliersTableBody">
+                <!-- JS will populate -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="page hidden" id="page-categories">
+        <div class="panel">
+          <div class="panel-head between">
+            <div>
+              <h3>Catégories</h3>
+              <p class="muted">Renommez ou supprimez des catégories.</p>
+            </div>
+            <button class="btn-primary" id="btnAddCategory"><i class="fa-solid fa-plus"></i> Ajouter</button>
+          </div>
+          <div id="catList" class="chips mt-12"></div>
+        </div>
+      </section>
+
+      <!-- DIAGRAMME PAGE -->
+      <section class="page hidden" id="page-diagramme">
+        <!-- Top stat header bar -->
+        <div class="diag-header">
+          <div class="diag-header-title">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Statistiques des Données</span>
+          </div>
+          <div class="diag-header-actions">
+            <button class="diag-action-btn" onclick="renderDiagramme()"><i
+                class="fa-solid fa-rotate-right"></i></button>
+          </div>
+        </div>
+
+        <!-- Stat cards row -->
+        <div class="diag-stat-row" id="diagramStats"></div>
+
+        <!-- Charts grid -->
+        <div class="diag-charts-top">
+          <!-- Area / Line chart -->
+          <div class="diag-chart-panel diag-chart-wide">
+            <div class="diag-chart-head">
+              <span class="diag-chart-title">Tendance des Ventes</span>
+              <div class="diag-legend">
+                <span class="diag-legend-dot" style="background:#1ff50b"></span><span>Commandes</span>
+                <span class="diag-legend-dot" style="background:#a21c1c"></span><span>Revenus</span>
+              </div>
+            </div>
+            <div class="diag-canvas-wrap">
+              <canvas id="chartOrders"></canvas>
+            </div>
+          </div>
+
+          <!-- Vertical bar chart: workgroup / suppliers -->
+          <div class="diag-chart-panel">
+            <div class="diag-chart-head">
+              <span class="diag-chart-title">Produits par Fournisseur</span>
+            </div>
+            <div class="diag-canvas-wrap">
+              <canvas id="chartSupplierProd"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts bottom row -->
+        <div class="diag-charts-bottom">
+          <!-- Horizontal bar: TOP products by stock -->
+          <div class="diag-chart-panel">
+            <div class="diag-chart-head">
+              <span class="diag-chart-title">Top Produits (Stock)</span>
+            </div>
+            <div class="diag-canvas-wrap">
+              <canvas id="chartCat"></canvas>
+            </div>
+          </div>
+
+          <!-- Doughnut: stock status -->
+          <div class="diag-chart-panel diag-chart-donut">
+            <div class="diag-chart-head">
+              <span class="diag-chart-title">Répartition Stock</span>
+            </div>
+            <div class="diag-canvas-wrap diag-donut-wrap">
+              <canvas id="chartClients"></canvas>
+              <div class="diag-donut-legend" id="donutLegend"></div>
+            </div>
+          </div>
+
+          <!-- Horizontal bar: top by category -->
+          <div class="diag-chart-panel">
+            <div class="diag-chart-head">
+              <span class="diag-chart-title">Stock par Catégorie</span>
+            </div>
+            <div class="diag-canvas-wrap">
+              <canvas id="chartRevenue"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PRODUCTS PAGE -->
+      <section class="page hidden" id="page-products">
+        <div class="panel">
+          <div class="panel-head between">
+            <div>
+              <h3>Nos Produits</h3>
+              <p class="muted">Recherche, filtre, ajout avec image + description.</p>
+            </div>
+            <button class="btn-primary" id="btnOpenAdd">
+              <i class="fa-solid fa-plus"></i> Ajouter Produit
+            </button>
+          </div>
+
+          <div class="filters">
+            <div class="search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input id="searchInput" type="text" placeholder="Rechercher un produit...">
+            </div>
+
+            <select id="categoryFilter" class="select">
+              <option value="all">Toutes</option>
+            </select>
+
+            <div class="range">
+              <span class="muted">0 - <span id="priceMaxLabel">100000</span> DH</span>
+              <input id="priceRange" type="range" min="0" max="100000" value="100000">
+            </div>
+          </div>
+        </div>
+
+        <div id="productsGrid" class="cards-grid mt-16"></div>
+      </section>
+
+      <!-- CASHIER PAGE -->
+      <section class="page hidden" id="page-cashier">
+        <div class="cashier-layout">
+          <div class="panel">
+            <div class="panel-head between">
+              <div>
+                <h3>Caisse</h3>
+                <p class="muted">Ajoute des produits au panier depuis Produits.</p>
+              </div>
+              <button class="btn-ghost" id="btnClearCart">
+                <i class="fa-solid fa-trash"></i> Vider
+              </button>
+            </div>
+
+            <div id="cartList" class="cart-list"></div>
+
+            <div class="cart-total">
+              <div>
+                <div class="muted">Sous-total</div>
+                <div class="total-num" id="cartSubtotal"></div>
+              </div>
+              <button class="btn-primary" id="btnCheckout">
+                <i class="fa-solid fa-credit-card"></i> Payer
+              </button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>Dernier Ticket</h3>
+            </div>
+            <div id="lastTicketWrap" class="ticket-wrap muted">
+              Aucun ticket pour le moment.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </section>
+
+  <!-- ====== ADD PRODUCT MODAL ====== -->
+  <div id="modalAdd" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3>Ajouter un produit</h3>
+        <button class="icon-btn" id="btnCloseAdd"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="form-grid">
+        <label>
+          Nom
+          <input id="pName" type="text" placeholder="Ex: Adidas Superstar">
+        </label>
+
+        <label>
+          Catégorie
+          <input id="pCat" type="text" placeholder="Ex: Chaussures">
+        </label>
+
+        <label>
+          Prix (DH)
+          <input id="pPrice" type="number" min="0" step="1">
+        </label>
+
+        <label>
+          Stock
+          <input id="pStock" type="number" min="0" step="1">
+        </label>
+
+        <label class="full">
+          Description
+          <textarea id="pDesc" rows="3" placeholder="Description du produit..."></textarea>
+        </label>
+
+        <div class="full img-box">
+          <div class="img-tabs">
+            <button class="tab active" data-imgtab="upload" type="button">Upload PC</button>
+            <button class="tab" data-imgtab="url" type="button">URL Image</button>
+          </div>
+
+          <div id="imgTabUpload" class="img-tab">
+            <input id="pImgFile" type="file" accept="image/*">
+            <div class="muted small">Choisis une image depuis ton PC.</div>
+          </div>
+
+          <div id="imgTabUrl" class="img-tab hidden">
+            <input id="pImgUrl" type="text" placeholder="https://.../image.jpg">
+            <div class="muted small">Ou colle un lien d'image.</div>
+          </div>
+
+          <div class="preview">
+            <img id="pPreview" alt="preview" />
+            <div class="muted small">Aperçu</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-ghost" id="btnCancelAdd" type="button">Annuler</button>
+        <button class="btn-primary" id="btnSaveProduct" type="button"><i class="fa-solid fa-check"></i>
+          Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== PAYMENT MODAL ====== -->
+  <div id="modalPay" class="modal hidden">
+    <div class="modal-card wide">
+      <div class="modal-head">
+        <h3>Paiement</h3>
+        <button class="icon-btn" id="btnClosePay"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="pay-layout">
+        <!-- Card preview -->
+        <div class="card-preview">
+          <div class="visa-top">
+            <div class="chip"></div>
+            <div class="visa-logo">VISA</div>
+          </div>
+          <div class="card-number" id="pvNumber">1234 1234 1234 1234</div>
+          <div class="card-row">
+            <div>
+              <div class="pv-label">Card Holder</div>
+              <div class="pv-value" id="pvHolder">IMANE</div>
+            </div>
+            <div>
+              <div class="pv-label">Expires</div>
+              <div class="pv-value" id="pvExp">MM/YY</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment form -->
+        <div class="pay-form">
+          <h4 class="section-title">Mode de paiement</h4>
+
+          <div class="pay-field">
+            <label>Numéro de carte</label>
+            <div class="input-icon">
+              <input id="cardNumber" inputmode="numeric" maxlength="19" placeholder="1234 1234 1234 1234">
+              <div class="pay-icons">
+                <span class="badge">MC</span>
+                <span class="badge">VISA</span>
+                <span class="badge">DISC</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="pay-row">
+            <div class="pay-field">
+              <label>Date d'expiration</label>
+              <div class="pay-row2">
+                <select id="expMonth">
+                  <option value="">Mois</option>
+                </select>
+                <select id="expYear">
+                  <option value="">Année</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="pay-field">
+              <label>Code de sécurité</label>
+              <div class="input-icon">
+                <input id="cardCvv" inputmode="numeric" maxlength="4" placeholder="CVV">
+                <i class="fa-solid fa-key"></i>
+              </div>
+            </div>
+          </div>
+
+          <h4 class="section-title mt-14">Adresse de facturation</h4>
+
+          <div class="pay-field">
+            <label>Nom complet</label>
+            <input id="billName" placeholder="Nom complet">
+          </div>
+
+          <div class="pay-row">
+            <div class="pay-field">
+              <label>Pays ou région</label>
+              <select id="billCountry">
+                <option value="Maroc" selected>Maroc</option>
+                <option value="France">France</option>
+                <option value="Spain">Spain</option>
+              </select>
+            </div>
+            <div class="pay-field">
+              <label>Ville</label>
+              <input id="billCity" placeholder="Casablanca">
+            </div>
+          </div>
+
+          <div class="pay-field">
+            <label>Adresse - Ligne 1</label>
+            <input id="billAddr" placeholder="Adresse...">
+          </div>
+
+          <button class="btn-primary w-100 mt-14" id="btnPayNow" type="button">
+            <i class="fa-solid fa-lock"></i> Payer et Générer Ticket
+          </button>
+
+          <p class="muted small mt-10">
+            *Ceci est une démo (pas de paiement réel).
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== EDIT PRODUCT MODAL ====== -->
+  <div id="modalEditProduct" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3>Modifier le produit</h3>
+        <button class="icon-btn" id="btnCloseEditProduct"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="form-grid">
+        <input type="hidden" id="epId">
+        <label>Nom<input id="epName" type="text" placeholder="Ex: Adidas Superstar"></label>
+        <label>Catégorie<input id="epCat" type="text" placeholder="Ex: Chaussures"></label>
+        <label>Prix (DH)<input id="epPrice" type="number" min="0" step="1"></label>
+        <label>Stock<input id="epStock" type="number" min="0" step="1"></label>
+        <label class="full">Description<textarea id="epDesc" rows="3"
+            placeholder="Description du produit..."></textarea></label>
+        <label class="full">URL Image<input id="epImgUrl" type="text" placeholder="https://.../image.jpg"></label>
+        <div class="full" style="text-align:center;">
+          <img id="epPreview" alt="preview"
+            style="max-height:100px;border-radius:8px;object-fit:contain;background:#f1f5f9;" />
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-ghost" id="btnCancelEditProduct" type="button">Annuler</button>
+        <button class="btn-primary" id="btnSaveEditProduct" type="button"><i class="fa-solid fa-check"></i>
+          Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== CLIENT MODAL (ADD/EDIT) ====== -->
+  <div id="modalClient" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 id="clientModalTitle">Ajouter un client</h3>
+        <button class="icon-btn" id="btnCloseClient"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="form-grid">
+        <input type="hidden" id="cId">
+        <label>Nom complet<input id="cName" type="text" placeholder="Ex: Jean Dupont"></label>
+        <label>Email<input id="cEmail" type="email" placeholder="email@example.com"></label>
+        <label>Téléphone<input id="cPhone" type="text" placeholder="06 XX XX XX XX"></label>
+        <label>Ville<input id="cCity" type="text" placeholder="Casablanca"></label>
+        <label>Statut
+          <select id="cStatus">
+            <option value="Actif">Actif</option>
+            <option value="Inactif">Inactif</option>
+          </select>
+        </label>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-ghost" id="btnCancelClient" type="button">Annuler</button>
+        <button class="btn-primary" id="btnSaveClient" type="button"><i class="fa-solid fa-check"></i>
+          Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== SUPPLIER MODAL (ADD/EDIT) ====== -->
+  <div id="modalSupplier" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 id="supplierModalTitle">Ajouter un fournisseur</h3>
+        <button class="icon-btn" id="btnCloseSupplier"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="form-grid">
+        <input type="hidden" id="sId">
+        <label>Nom société<input id="sName" type="text" placeholder="Ex: ElectroPlanet"></label>
+        <label>Catégorie<input id="sCat" type="text" placeholder="Ex: ELECTRONIQUE"></label>
+        <label>Contact<input id="sContact" type="text" placeholder="M. Ahmed"></label>
+        <label>Téléphone<input id="sPhone" type="text" placeholder="05 XX XX XX XX"></label>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-ghost" id="btnCancelSupplier" type="button">Annuler</button>
+        <button class="btn-primary" id="btnSaveSupplier" type="button"><i class="fa-solid fa-check"></i>
+          Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== CATEGORY MODAL (ADD/EDIT) ====== -->
+  <div id="modalCategory" class="modal hidden">
+    <div class="modal-card" style="max-width:420px;">
+      <div class="modal-head">
+        <h3 id="categoryModalTitle">Ajouter une catégorie</h3>
+        <button class="icon-btn" id="btnCloseCategory"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="form-grid">
+        <input type="hidden" id="catOldName">
+        <label class="full">Nom de la catégorie<input id="catNewName" type="text"
+            placeholder="Ex: ELECTRONIQUE"></label>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-ghost" id="btnCancelCategory" type="button">Annuler</button>
+        <button class="btn-primary" id="btnSaveCategory" type="button"><i class="fa-solid fa-check"></i>
+          Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== TICKET (for PDF capture) ====== -->
+  <div id="ticketCaptureArea" class="ticket-capture hidden"></div>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
