@@ -51,9 +51,4 @@ gestion-stock/
    [http://localhost/gestion-stock/](http://localhost/gestion-stock/)
 ## Auteur
 Imane Chennoufi
-## Remarque
 
-Ce projet a été réalisé dans un objectif pédagogique pour mettre en pratique les notions de développement web (frontend + backend).
-
-* ajouter une **partie UML (use case, classes)**
-* ou écrire une **description parfaite pour ton CV GitHub** 👍
