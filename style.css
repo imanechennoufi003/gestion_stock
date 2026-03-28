@@ -11,15 +11,15 @@
 }
 
 :root {
-    --cyan: #13489d;
-    --navy: #0f172a;
-    --navy2: #1e293b;
-    --navy3: #334155;
-    --text: #dadadc;
-    --muted: #94a3b8;
-    --border: rgba(255, 255, 255, .08);
-    --red: #821414;
-    --green: #22c566;
+    --cyan: #c8842a;         /* amber/gold accent  */
+    --navy: #1a110a;         /* darkest brown bg   */
+    --navy2: #261a10;        /* sidebar / card     */
+    --navy3: #3d2b18;        /* lighter brown      */
+    --text: #f0e6d3;         /* warm off-white     */
+    --muted: #a88b6e;        /* warm muted brown   */
+    --border: rgba(200, 132, 42, .12);
+    --red: #c0392b;
+    --green: #27ae60;
     --radius: 12px;
     --radius-sm: 8px;
     --trans: .25s ease;
@@ -91,7 +91,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: #1a1a2e;
+    background: #0f1646;
     padding: 20px;
     position: relative;
     overflow: hidden;
@@ -128,7 +128,7 @@ body {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(10, 8, 30, 0.45);
+    background: rgba(16, 26, 97, 0.55);
     z-index: 1;
     pointer-events: none;
 }
@@ -141,7 +141,7 @@ body {
 
 .footer {
     margin-top: 18px;
-    color: rgba(255, 255, 255, .3);
+    color: rgba(12, 32, 133, 0.3);
     font-size: 12px;
 }
 
@@ -152,7 +152,7 @@ body {
     max-width: 800px;
     height: 500px;
     border: 2px solid var(--cyan);
-    box-shadow: 0 0 28px rgba(0, 212, 255, .4);
+    box-shadow: 0 0 28px rgba(4, 19, 134, 0.4);
     overflow: hidden;
 }
 
@@ -163,7 +163,7 @@ body {
     top: -5px;
     height: 600px;
     width: 850px;
-    background: linear-gradient(45deg, #1a1a2e, var(--cyan));
+    background: linear-gradient(45deg, #1b1ba8, var(--cyan));
     transform: rotate(10deg) skewY(40deg);
     transform-origin: bottom right;
     transition: 1.5s ease;
@@ -181,7 +181,7 @@ body {
     top: 100%;
     height: 700px;
     width: 850px;
-    background: #1a1a2e;
+    background: #2e0d8f;
     border-top: 3px solid var(--cyan);
     transform: rotate(0) skewY(0);
     transform-origin: bottom left;
@@ -305,7 +305,7 @@ body {
     position: absolute;
     height: 300%;
     width: 100%;
-    background: linear-gradient(#1a1a2e, var(--cyan), #1a1a2e, var(--cyan));
+    background: linear-gradient(#1a110a, var(--cyan), #1a110a, var(--cyan));
     top: -100%;
     left: 0;
     z-index: -1;
@@ -656,7 +656,7 @@ body {
 }
 
 .nav-item.active {
-    background: rgba(0, 212, 255, .12);
+    background: rgba(200, 132, 42, .15);
     color: var(--cyan);
     font-weight: 600;
 }
@@ -845,7 +845,7 @@ button {
 }
 
 .pill {
-    background: rgba(0, 212, 255, .12);
+    background: rgba(200, 132, 42, .15);
     color: var(--cyan);
     font-size: 11px;
     font-weight: 600;
@@ -963,14 +963,14 @@ button {
 }
 
 .stat:hover {
-    border-color: rgba(0, 212, 255, .3);
+    border-color: rgba(200, 132, 42, .4);
 }
 
 .stat-ico {
     width: 42px;
     height: 42px;
     border-radius: 10px;
-    background: rgba(0, 212, 255, .12);
+    background: rgba(200, 132, 42, .15);
     display: flex;
     align-items: center;
     justify-content: center;
