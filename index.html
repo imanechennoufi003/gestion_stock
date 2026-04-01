@@ -704,6 +704,74 @@
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
   <script src="app.js"></script>
+
+  <!-- ====== CHATBOT ====== -->
+
+  <!-- Floating Toggle Button -->
+  <div id="chatbotFab" class="chatbot-fab" title="Assistant IA">
+    <div class="chatbot-fab-ring"></div>
+    <i class="fa-solid fa-robot"></i>
+    <span class="chatbot-badge" id="chatBadge">1</span>
+  </div>
+
+  <!-- Chat Window -->
+  <div id="chatbotWindow" class="chatbot-window hidden">
+    <!-- Header -->
+    <div class="chatbot-header">
+      <div class="chatbot-header-left">
+        <div class="chatbot-avatar">
+          <i class="fa-solid fa-robot"></i>
+          <span class="chatbot-status-dot"></span>
+        </div>
+        <div>
+          <div class="chatbot-name">StockBot AI</div>
+          <div class="chatbot-subtitle">Assistant Intelligent • En ligne</div>
+        </div>
+      </div>
+      <div class="chatbot-header-actions">
+        <button class="chatbot-icon-btn" id="chatClearBtn" title="Effacer la conversation">
+          <i class="fa-solid fa-trash-can"></i>
+        </button>
+        <button class="chatbot-icon-btn" id="chatMinBtn" title="Réduire">
+          <i class="fa-solid fa-minus"></i>
+        </button>
+        <button class="chatbot-icon-btn" id="chatCloseBtn" title="Fermer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Messages Area -->
+    <div class="chatbot-messages" id="chatMessages"></div>
+
+    <!-- Suggestions -->
+    <div class="chatbot-suggestions" id="chatSuggestions">
+      <button class="chat-chip" data-msg="Quels produits sont en rupture de stock ?">📦 Ruptures stock</button>
+      <button class="chat-chip" data-msg="Combien de clients avons-nous ?">👥 Nb clients</button>
+      <button class="chat-chip" data-msg="Liste des fournisseurs">🚚 Fournisseurs</button>
+      <button class="chat-chip" data-msg="Quel est le produit le plus cher ?">💰 Produit cher</button>
+    </div>
+
+    <!-- Input Area -->
+    <div class="chatbot-input-area">
+      <div class="chatbot-input-wrap">
+        <input
+          type="text"
+          id="chatInput"
+          class="chatbot-input"
+          placeholder="Posez votre question..."
+          autocomplete="off"
+          maxlength="500"
+        />
+        <button class="chatbot-send" id="chatSendBtn">
+          <i class="fa-solid fa-paper-plane"></i>
+        </button>
+      </div>
+      <div class="chatbot-footer-note">StockBot • Propulsé par IA locale</div>
+    </div>
+  </div>
+
+  <script src="chatbot.js"></script>
 </body>
 
 </html>
